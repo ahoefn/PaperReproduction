@@ -1,0 +1,14 @@
+[project]
+name = "PaperRepro"
+version = "0.0.0"
+dependencies = [
+    "ipykernel",
+    "ipywidgets",
+    "jupyter",
+    "tqdm",
+    "numpy",
+    "matplotlib",
+    "scipy",
+    "torch",
+    "torchvision",
+]
