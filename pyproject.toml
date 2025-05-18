@@ -11,4 +11,5 @@ dependencies = [
     "scipy",
     "torch",
     "torchvision",
+    "torch_geometric"
 ]
