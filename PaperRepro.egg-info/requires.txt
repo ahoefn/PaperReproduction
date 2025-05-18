@@ -1,9 +1,0 @@
-ipykernel
-ipywidgets
-jupyter
-tqdm
-numpy
-matplotlib
-scipy
-torch
-torchvision
