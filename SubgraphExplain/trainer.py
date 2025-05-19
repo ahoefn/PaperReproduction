@@ -15,8 +15,8 @@ class Trainer:
         self.data: MUTAGDataLoader = data
 
         # optimizer and loss
-        self.optimizer = torch.optim.SGD(model.parameters(), lr=0.005)
-        self.loss_module = nn.BCEWithLogitsLoss()
+        self.optimizer = torch.optim.Adam(model.parameters(), lr=0.005, weight_decay=0)
+        self.loss_module = nn.CrossEntropyLoss()
 
         # loss logs
         self.train_loss: list[float] = []
@@ -35,19 +35,21 @@ class Trainer:
             # self.test_loss.append(test_loss)
 
     def train_step(self) -> float:
+        loss_list: list[float] = []
         for data in self.data.train_loader:
-            self.optimizer.zero_grad()
-
             # calculate loss
             outputs = self.model(data["x"], data["edge_index"], data["batch"])
             expected_outputs = data["y"].float()
-            loss: torch.Tensor = self.loss_module(outputs, expected_outputs)
+            batch_loss: torch.Tensor = self.loss_module(outputs, expected_outputs)
 
             # update model
-            loss.backward()
+            self.optimizer.zero_grad()
+            batch_loss.backward()
+            torch.nn.utils.clip_grad_value_(self.model.parameters(), clip_value=2.0)
             self.optimizer.step()
+            loss_list.append(batch_loss.item())
 
-        return loss.item()
+        return sum(loss_list) / len(loss_list)
 
     def get_test_loss(self) -> float:
         data = self.data.test_loader.dataset
@@ -59,5 +61,5 @@ class Trainer:
     # plotting functions:
     def plot_losses(self) -> None:
         plt.figure(figsize=(12, 12))
-        plt.plot(self.test_loss, label="test loss")
+        # plt.plot(self.test_loss, label="test loss")
         plt.plot(self.train_loss, label="train loss")
