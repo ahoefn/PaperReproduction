@@ -1,22 +1,17 @@
-import torch
-from torch_geometric.datasets import TUDataset
-import torch_geometric.utils
-import torch_geometric.transforms as tgt
+import matplotlib.pyplot as plt
 
-import mutag_data
-import mutag_model
+from mutag_data import MUTAGDataLoader
+from mutag_model import MUTAGModel
+from trainer import Trainer
 
-import torch_geometric.nn as tgnn
 
 if __name__ == "__main__":
-    mutag = mutag_data.MUTAGDataLoader()
-    # mutag.plot_graphs()
+    mutag_data = MUTAGDataLoader()
+    model = MUTAGModel()
+    trainer = Trainer(model, mutag_data)
+    # trainer.step(2000)
+    # trainer.plot_losses()
+    # plt.show()
 
-    model = mutag_model.MUTAGModel()
-    # print(model)
-
-    data = next(iter(mutag.train_loader))
-    x = model(data["x"], data["edge_index"])
-    print(x)
-    for d in mutag.train_loader:
-        print(d)
+    data = next(iter(mutag_data.train_loader))
+    x = model(data["x"], data["edge_index"], data.batch)

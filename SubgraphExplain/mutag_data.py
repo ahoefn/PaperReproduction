@@ -1,6 +1,8 @@
 import torch
 
+import torch_geometric
 from torch_geometric.datasets import TUDataset
+import torch_geometric.datasets
 from torch_geometric.loader import DataLoader
 from torch_geometric.utils import to_networkx
 
@@ -16,7 +18,7 @@ class MUTAGDataLoader:
         train_data = dataset[:150]
         test_data = dataset[150:]
         self.train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
-        self.test_loader = DataLoader(test_data, batch_size=64)
+        self.test_loader = DataLoader(test_data)
 
     def plot_graphs(self):
         """

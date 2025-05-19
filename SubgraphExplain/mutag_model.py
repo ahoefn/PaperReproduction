@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+from torch_geometric.data import Data
 import torch_geometric.nn as tgnn
 
 
@@ -20,11 +21,16 @@ class MUTAGModel(nn.Module):
 
         # activation function and pooling
         self.activation = nn.ReLU()
-        self.pool = tgnn.aggr.MaxAggregation()
 
-    def forward(self, x, edge_index):
+    def forward(self, x, edge_index, batch_data):
+        # graph layers:
         x = self.activation(self.layer_input(x, edge_index))
         x = self.activation(self.layer_hidden1(x, edge_index))
         x = self.activation(self.layer_hidden2(x, edge_index))
-        x = self.pool(x, dim=-1).squeeze()
+
+        # pooling
+        x, _ = torch.max(x, dim=-1)
+        print(x.size())
+        x = tgnn.pool.global_max_pool(x, batch_data)
+        print(x.size())
         return x
