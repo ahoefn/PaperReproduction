@@ -7,8 +7,7 @@ import torch_geometric.nn as tgnn
 
 class MUTAGModel(nn.Module):
     """
-    Network as used in the paper, three GCN layers all with output sizes of 128 followed by a max pooling.
-    Activation function is ReLU
+    Network as used in the paper, three GCN layers all with output sizes of 128 followed by a max pooling. Afterwards, a single 128-2 linear layer to aggregate the outputs. Activation function for the GCN layers is ReLU.
     """
 
     def __init__(self):
@@ -24,7 +23,6 @@ class MUTAGModel(nn.Module):
 
         # activation function and pooling
         self.gnn_activation = nn.ReLU()
-        self.linear_activation = nn.ELU()
 
     def forward(self, x, edge_index, batch_data):
         # graph layers:
@@ -36,8 +34,6 @@ class MUTAGModel(nn.Module):
         x = tgnn.pool.global_max_pool(x, batch_data)
 
         # linear layer:
-        # x = self.linear_activation(self.linear_layer(x))
-        # seems like the paper doesn't use an activation function for the final one? not for the logits at least
         x = self.linear_layer(x)
 
         return x

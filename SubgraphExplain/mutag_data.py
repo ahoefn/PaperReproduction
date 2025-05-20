@@ -21,7 +21,7 @@ class MUTAGDataLoader:
 
     def plot_graphs(self):
         """
-        plots 4 random graphs
+        plots 4 random graphs from the dataset
         """
         data_iter = iter(self.train_loader.dataset)
         datagraphs = [to_networkx(next(data_iter)) for i in range(4)]
