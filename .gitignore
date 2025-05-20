@@ -1,4 +1,6 @@
-**/data
-*.egg-info
-build
 .venv
+build
+*.egg-info
+**/__pycache__
+checkpoints
+**/data

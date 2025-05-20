@@ -2,7 +2,6 @@ import torch
 
 import torch_geometric
 from torch_geometric.datasets import TUDataset
-import torch_geometric.datasets
 from torch_geometric.loader import DataLoader
 from torch_geometric.utils import to_networkx
 

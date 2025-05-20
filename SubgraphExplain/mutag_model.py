@@ -20,7 +20,7 @@ class MUTAGModel(nn.Module):
         self.gnn_layer_hidden2: nn.Module = tgnn.GCNConv(128, 128)
 
         # define linear layer:
-        self.linear_layer: nn.Module = nn.Linear(128, 1)
+        self.linear_layer: nn.Module = nn.Linear(128, 2)
 
         # activation function and pooling
         self.gnn_activation = nn.ReLU()
@@ -36,6 +36,8 @@ class MUTAGModel(nn.Module):
         x = tgnn.pool.global_max_pool(x, batch_data)
 
         # linear layer:
-        x = self.linear_activation(self.linear_layer(x))
+        # x = self.linear_activation(self.linear_layer(x))
+        # seems like the paper doesn't use an activation function for the final one? not for the logits at least
+        x = self.linear_layer(x)
 
-        return x.squeeze()
+        return x
