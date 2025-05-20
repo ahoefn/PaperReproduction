@@ -1,6 +1,10 @@
 # Paper reproduction
 
-In this repo I collect a number of papers I find interesting and reproduce their results. Only out of interest.
+In this repo I collect a number of papers I find interesting and reproduce their results.
 
-#### Current papers
- - [On Explainability of Graph Neural Networks via Subgraph Explorations](https://arxiv.org/pdf/2102.05152)
+# Papers
+
+The papers I have in this repo right now, the section title is the name of the folder the files can be found in.
+
+### SubgraphExplain
+Based on the paper [On Explainability of Graph Neural Networks via Subgraph Explorations](https://arxiv.org/pdf/2102.05152), in it I have reproduced their GNN model and train it on the [MUTAG](https://chrsmrrs.github.io/datasets/docs/datasets/) dataset. In the future I will actually reproduce their SubgraphX algorithm and use it to explain the models prediction.
