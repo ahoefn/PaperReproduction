@@ -17,7 +17,7 @@ class MUTAGDataLoader:
         train_data = cast(tgd.Dataset, dataset[:150])
         test_data = cast(tgd.Dataset, dataset[150:])
         self.train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
-        self.test_loader = DataLoader(test_data)
+        self.test_loader = DataLoader(test_data, batch_size=64, shuffle=True)
 
     def plot_graphs(self):
         """

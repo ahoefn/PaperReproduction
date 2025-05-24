@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
 
+import torch
+import torch_geometric.data as tgd
+
 from mutag_data import MUTAGDataLoader
 from mutag_model import MUTAGModel
 from trainer import Trainer
@@ -26,34 +29,13 @@ def load_model(name: str, mutag_data: MUTAGDataLoader) -> Trainer:
 if __name__ == "__main__":
 
     data = MUTAGDataLoader()
-    trainer = train_model("test", 10, data)
-    trainer_loaded = load_model("test", data)
+    model = MUTAGModel()
 
-    # check if model paramaters are indeed the same
-    for trained_params, loaded_params in zip(
-        trainer.model.parameters(), trainer_loaded.model.parameters()
-    ):
-        if trained_params.ne(loaded_params).sum() > 0:
-            print(
-                f"Error: not all parameters are equal. Problem in {trained_params} and {loaded_params}"
-            )
+    trainer = train_model("0524-2000e", 2000, data)
 
-    fig_loss = plt.figure(
-        figsize=(
-            12,
-            12,
-        )
-    )
-    trainer.plot_losses(fig_loss)
-    trainer_loaded.train_loss = [x + 0.1 for x in trainer_loaded.train_loss]
-    trainer_loaded.plot_losses(fig_loss)
+    fig, axs = plt.subplots(2)
 
-    fig_accuracy = plt.figure(
-        figsize=(
-            12,
-            12,
-        )
-    )
-    trainer.plot_accuracy(fig_accuracy)
-    trainer_loaded.plot_accuracy(fig_accuracy)
+    trainer.plot_losses(axs[0])
+    trainer.plot_accuracy(axs[1])
+
     plt.show()
