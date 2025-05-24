@@ -1,6 +1,3 @@
-import torch
-
-import torch_geometric
 import torch_geometric.data as tgd
 from torch_geometric.datasets import TUDataset
 from torch_geometric.loader import DataLoader
