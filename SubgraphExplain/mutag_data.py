@@ -1,9 +1,12 @@
 import torch
 
 import torch_geometric
+import torch_geometric.data as tgd
 from torch_geometric.datasets import TUDataset
 from torch_geometric.loader import DataLoader
 from torch_geometric.utils import to_networkx
+
+from typing import cast
 
 # for graph plotting
 import networkx as nx
@@ -14,8 +17,8 @@ class MUTAGDataLoader:
     def __init__(self):
         dataset = TUDataset("SubgraphExplain\\data", name="MUTAG")
         dataset.shuffle()
-        train_data = dataset[:150]
-        test_data = dataset[150:]
+        train_data = cast(tgd.Dataset, dataset[:150])
+        test_data = cast(tgd.Dataset, dataset[150:])
         self.train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
         self.test_loader = DataLoader(test_data)
 
