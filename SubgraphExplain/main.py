@@ -1,11 +1,9 @@
 import matplotlib.pyplot as plt
 
-import torch
-import torch.nn as nn
-
 from mutag_data import MUTAGDataLoader
 from mutag_model import MUTAGModel
 from trainer import Trainer
+import model_persistence
 
 
 def train_model(name: str, epochs: int, mutag_data: MUTAGDataLoader) -> Trainer:
@@ -13,7 +11,7 @@ def train_model(name: str, epochs: int, mutag_data: MUTAGDataLoader) -> Trainer:
 
     trainer = Trainer(model, mutag_data)
     trainer.step(epochs)
-    trainer.save_model(name)
+    model_persistence.save_model(trainer, name)
 
     return trainer
 
@@ -21,7 +19,7 @@ def train_model(name: str, epochs: int, mutag_data: MUTAGDataLoader) -> Trainer:
 def load_model(name: str, mutag_data: MUTAGDataLoader) -> Trainer:
     model = MUTAGModel()
     trainer = Trainer(model, mutag_data)
-    trainer.load_model(name)
+    model_persistence.load_model(trainer, name)
     return trainer
 
 

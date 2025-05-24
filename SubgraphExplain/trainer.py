@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 import numpy as np
 
+import torch
 import torch.nn as nn
 import torch.optim
 
@@ -84,60 +85,6 @@ class Trainer:
         expected_outputs = data["y"]
         loss: torch.Tensor = self.loss_module(outputs, expected_outputs)
         return loss.item()
-
-    # saving and loading models plus hyperparameters
-    def save_model(self, name: str) -> None:
-        save_data = {
-            "model_type": type(self.model),
-            "model": self.model.state_dict(),
-            "optimizer_type": type(self.optimizer),
-            "optimizer": self.optimizer.state_dict(),
-            "loss_type": type(self.loss_module),
-            "train_loss": self.train_loss,
-            "test_loss": self.test_loss,
-            "train_accuracy": self.train_accuracy,
-            "test_accuracy": self.test_accuracy,
-            "epochs": self.epochs,
-        }
-
-        torch.save(save_data, "SubgraphExplain\\checkpoints\\" + name + ".pt")
-
-    def load_model(self, name: str, weights_only: bool = False) -> None:
-        path = "SubgraphExplain\\checkpoints\\" + name + ".pt"
-
-        # if weights_only, we don't load hyperparams etc
-        if weights_only:
-            self.model.load_state_dict(torch.load(path, weights_only=True))
-            return
-
-        load_data = torch.load(path, weights_only=False)
-
-        # load model params
-        if not load_data["model_type"] == type(self.model):
-            print(
-                f'Warning: model type of loaded data "{load_data["model_type"]}" does not match current model type "{type(self.model)}"'
-            )
-        self.model.load_state_dict(load_data["model"])
-
-        # load optimizer
-        if not load_data["optimizer_type"] == type(self.optimizer):
-            print(
-                f'Warning: optimizer type of loaded data "{load_data["optimizer_type"]}" does not match current optimizer type "{type(self.optimizer)}"'
-            )
-        self.optimizer.load_state_dict(load_data["optimizer"])
-
-        # give warning of loss modules don't match
-        if not load_data["loss_type"] == type(self.loss_module):
-            print(
-                f'Warning: loss module of loaded data "{load_data["loss_type"]}" does not match current loss module "{type(self.loss_module)}"'
-            )
-
-        # load logs en epoch counts
-        self.train_loss = load_data["train_loss"]
-        self.test_loss = load_data["test_loss"]
-        self.train_accuracy = load_data["train_accuracy"]
-        self.test_accuracy = load_data["test_accuracy"]
-        self.epochs = load_data["epochs"]
 
     # plotting functions:
     def plot_losses(self, fig=plt.figure(figsize=(12, 12))) -> None:
