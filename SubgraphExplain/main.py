@@ -55,9 +55,9 @@ if __name__ == "__main__":
     print(f"Test accuracy: {trainer.test_accuracy[-1]}")
     print(f"Train loss: {trainer.train_loss[-1]}")
     print(f"Test loss: {trainer.test_loss[-1]}")
-    # fig, axs = plt.subplots(2)
 
-    # trainer.plot_losses(axs[0])
-    # trainer.plot_accuracy(axs[1])
+    fig, axs = plt.subplots(2)
+    trainer.plot_losses(axs[0])
+    trainer.plot_accuracy(axs[1])
 
-    # plt.show()
+    plt.show()

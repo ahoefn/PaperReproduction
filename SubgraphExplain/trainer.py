@@ -81,6 +81,7 @@ class Trainer:
         average_accuracy = np.concatenate(correct_prediction_bools, axis=0).mean()
         return average_loss, average_accuracy
 
+    @torch.no_grad()
     def test_step(self) -> tuple[float, float]:
         loss_list: list[float] = []
         correct_prediction_bools = []
@@ -108,6 +109,14 @@ class Trainer:
         ax.plot(self.train_loss, label="train loss")
         ax.plot(self.test_loss, label="test loss")
 
+        ax.set_xlabel("Epochs")
+        ax.set_ylabel("Loss")
+        ax.legend()
+
     def plot_accuracy(self, ax: pltax.Axes) -> None:
         ax.plot(self.train_accuracy, label="train accuracy")
         ax.plot(self.test_accuracy, label="test accuracy")
+
+        ax.set_xlabel("Epochs")
+        ax.set_ylabel("Accuracy")
+        ax.legend()
