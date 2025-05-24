@@ -41,15 +41,8 @@ if __name__ == "__main__":
     data = MUTAGDataLoader()
     model = MUTAGModel()
 
-    # param_count = 0
-    # for param in model.parameters():
-    #     # print(param)
-    #     param_count += param.numel()
-
-    # print(param_count)
-    # trainer = train_model("test", 500, data)
-    # trainer = train_model("0524-2000e", 2000, data)
-    trainer = load_model("0524-2000e", data)
+    trainer = train_model("0524-2000e-2", 2000, data)
+    # trainer = load_model("0524-2000e", data)
 
     print(f"Train accuracy: {trainer.train_accuracy[-1]}")
     print(f"Test accuracy: {trainer.test_accuracy[-1]}")

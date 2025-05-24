@@ -56,6 +56,8 @@ class Trainer:
         self.epochs += epochs
 
     def train_step(self) -> tuple[float, float]:
+        self.model.train()
+
         loss_list: list[float] = []
         correct_prediction_bools = []
         for data in self.data.train_loader:
@@ -83,6 +85,8 @@ class Trainer:
 
     @torch.no_grad()
     def test_step(self) -> tuple[float, float]:
+        self.model.eval()
+
         loss_list: list[float] = []
         correct_prediction_bools = []
         for data in self.data.test_loader:
