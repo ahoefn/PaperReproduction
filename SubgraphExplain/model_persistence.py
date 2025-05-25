@@ -13,6 +13,7 @@ def save_model(trainer: Trainer, name: str) -> None:
     save_data = {
         "model_type": type(trainer.model),
         "model": trainer.model.state_dict(),
+        "hidden_size": trainer.model.hidden_size,
         "optimizer_type": type(trainer.optimizer),
         "optimizer": trainer.optimizer.state_dict(),
         "loss_type": type(trainer.loss_module),
